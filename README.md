@@ -1,6 +1,6 @@
 # Mini Tournament Simulator
 
-This project is in a tournament simulator with rounds and matches.
+This project is a tournament simulator with rounds and matches.
 It consists of 3 parts:
 
 - A REST API with an endpoint to trigger the tournament simulation (access via /swagger or /api/tournament/simulate)
@@ -26,7 +26,7 @@ From release:
 - File Scoped Namespaces and Primary Constructors used for readability.
 - Used manual mapping instead of libraries like AutoMapper for performance and to avoid issues in case they go commercial in the future.
 - Comments kept to a minimum except for edge cases, TODOs or very niche algorithms.
-- Options pattern for configuration (with some defaults based on the assessment requirements).
+- Options pattern for configuration (with some defaults based on the requirements).
 - Strongly typed HttpClients.
 - Basic FE in Blazor.
 - Unit tests in xUnit
@@ -36,7 +36,7 @@ From release:
 
 ## Going further (bonus)
 
-Added the following features, implicitly considered out-of-scope to make it a bit more extensible:
+Added the following features (implicitly considered out-of-scope) to make it a bit more extensible:
 
 - SecondStage Option to split the tournament into 2 Stages with teams switching home-away in the 2nd stage (default to false).
 - RandomFixtures Option to create rounds with trully random fixtures (default to false).
