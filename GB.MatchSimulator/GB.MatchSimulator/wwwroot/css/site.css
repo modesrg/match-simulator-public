@@ -1,0 +1,121 @@
+﻿.tournament-container {
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+table.table {
+    border-collapse: collapse;
+    width: 100%;
+    border: 1px solid #ddd;
+    font-family: Arial, sans-serif;
+}
+
+    table.table th {
+        background-color: #007ACC;
+        color: white;
+        font-weight: bold;
+        padding: 10px;
+        text-align: center;
+    }
+
+    table.table td {
+        padding: 10px;
+        text-align: center;
+        border: 1px solid #ddd;
+    }
+
+    table.table tbody tr:nth-child(even) {
+        background-color: #f9f9f9;
+    }
+
+    table.table tbody tr:hover {
+        background-color: #e6f0fa;
+    }
+
+    table.table th:not(:first-child),
+    table.table td:not(:first-child) {
+        width: 80px;
+        text-align: center;
+        white-space: nowrap;
+    }
+
+    table.table th:first-child,
+    table.table td:first-child {
+        width: 30px; 
+        text-align: center; 
+    }
+
+    table.table th:nth-child(2),
+    table.table td:nth-child(2) {
+        width: 150px; 
+        text-align: center; 
+    }
+
+    table.table th:not(:first-child):not(:nth-child(2)),
+    table.table td:not(:first-child):not(:nth-child(2)) {
+        width: 80px;
+        text-align: center;
+    }
+
+
+.rounds-grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 16px;
+    margin-bottom: 2rem;
+}
+
+.round-card {
+    width: 250px; 
+    background-color: #f8f9fa;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 12px 16px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+    .round-card:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    }
+
+    .round-card h5 {
+        background-color: #007ACC;
+        color: white;
+        padding: 6px 10px;
+        border-radius: 4px;
+        margin-bottom: 10px;
+        font-size: 1rem;
+        text-align: center;
+    }
+
+    .round-card ul {
+        list-style: none;
+        padding-left: 0;
+        margin: 0;
+    }
+
+    .round-card li {
+        padding: 4px 0;
+        border-bottom: 1px solid #eee;
+        font-family: Arial, sans-serif;
+        font-size: 0.95rem;
+        text-align: center;
+    }
+
+        .round-card li:last-child {
+            border-bottom: none;
+        }
+
+h3 {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 1.6rem;
+    color: #007ACC; 
+    font-weight: 600;
+    margin-bottom: 1rem; 
+    border-bottom: 2px solid #007ACC;
+    padding-bottom: 4px;
+    letter-spacing: 0.5px;
+}

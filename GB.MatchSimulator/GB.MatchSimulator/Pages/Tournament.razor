@@ -1,0 +1,75 @@
+﻿@page "/Tournament"
+@using GB.MatchSimulator.Clients.Interfaces
+@using GB.MatchSimulator.Models
+@inject ITournamentApiClient TournamentClient
+
+@if (tournament == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <div class="tournament-container">
+        <h3>Tournament</h3>
+        <div class="rounds-grid mb-4">
+            @foreach (var (round, index) in tournament.Rounds.Select((r, i) => (r, i + 1)))
+            {
+                <div class="round-card">
+                    <h5>Round @index</h5>
+                    <ul>
+                        @foreach (var match in round.Results)
+                        {
+                            <li>
+                                @match.Home.Name @match.Home.Score
+                                -
+                                @match.Away.Score @match.Away.Name
+                            </li>
+                        }
+                    </ul>
+                </div>
+            }
+        </div>
+
+        <table class="table">
+            <thead>
+                <tr>
+                    <td>No.</td>
+                    <td>Name</td>
+                    <td>Win</td>
+                    <td>Draw</td>
+                    <td>Loss</td>
+                    <td>For</td>
+                    <td>Against</td>
+                    <td>GD</td>
+                    <td>Points</td>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var (res, index) in tournament.ScoreBoard.Select((r, i) => (r, i + 1)))
+                {
+                    <tr>
+                        <td>@index</td>
+                        <td>@res.Name</td>
+                        <td>@res.Win</td>
+                        <td>@res.Draw</td>
+                        <td>@res.Loss</td>
+                        <td>@res.For</td>
+                        <td>@res.Against</td>
+                        <td>@res.GD</td>
+                        <td>@res.Points</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+}
+
+
+@code {
+    private TournamentResult? tournament;
+
+    protected override async Task OnInitializedAsync()
+    {
+        tournament = tournament is not null ? tournament : await TournamentClient.SimulateTournament();
+    }
+}
