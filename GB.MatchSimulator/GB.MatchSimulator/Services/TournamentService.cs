@@ -15,7 +15,7 @@ public class TournamentService(IRoundService roundService,
     {
         logger.LogInformation("Starting tournament simulation");
 
-        var teams = teamRepository.GetAllTeams();
+        var teams = await teamRepository.GetAllTeams();
         var teamNames = teams.Select(t => t.Name).ToList();
 
         var boardResults = InitializeBoard(teamNames);
@@ -25,7 +25,7 @@ public class TournamentService(IRoundService roundService,
 
         foreach (var round in rounds)
         {
-            var roundResult = roundService.SimulateRound(round);
+            var roundResult = await roundService.SimulateRound(round);
             roundResults.Add(roundResult);
             roundResult.Results.ForEach(r => UpdateBoard(boardResults, r));
         }

@@ -3,5 +3,5 @@
 namespace GB.MatchSimulator.Services.Interfaces;
 public interface IMatchService
 {
-    MatchResult SimulateMatch(Fixture match);
+    Task<MatchResult> SimulateMatch(Fixture match);
 }

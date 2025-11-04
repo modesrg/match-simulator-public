@@ -29,7 +29,7 @@ public class RoundServiceTests
     }
 
     [Fact]
-    public void Success_Round_Simulated()
+    public async Task Success_Round_Simulated()
     {
         var matchResults = TestData.GetTestMatchResults();
         List<Fixture> testFixtures = TestData.GetTestFixtures();
@@ -38,9 +38,9 @@ public class RoundServiceTests
         var testRound = new Round() { Name = roundName, Matches = testFixtures };
 
         mockMatchService.Setup(s => s.SimulateMatch(testRound.Matches.FirstOrDefault()))
-            .Returns(matchResults.FirstOrDefault()!);
+            .ReturnsAsync(matchResults.FirstOrDefault()!);
 
-        var result = _service.SimulateRound(testRound);
+        var result = await _service.SimulateRound(testRound);
 
         Assert.True(result.Results.FirstOrDefault()!.Home.Score == 3);
         Assert.Equal(result.Name, roundName);

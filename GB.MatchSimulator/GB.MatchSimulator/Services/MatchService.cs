@@ -11,12 +11,12 @@ namespace GB.MatchSimulator.Services;
 public class MatchService(ITeamRepository teamRepository, IOptions<SimulatorOptions> options,
     ILogger<MatchService> logger) : IMatchService
 {
-    public MatchResult SimulateMatch(Fixture match)
+    public async Task<MatchResult> SimulateMatch(Fixture match)
     {
         logger.LogInformation($"Simulating match {match.Home} vs {match.Away}");
 
-        var homeTeamEntity = teamRepository.GetTeamByName(match.Home);
-        var awayTeamEntity = teamRepository.GetTeamByName(match.Away);
+        var homeTeamEntity = await teamRepository.GetTeamByName(match.Home);
+        var awayTeamEntity = await teamRepository.GetTeamByName(match.Away);
 
         if (homeTeamEntity is null || awayTeamEntity is null)
             throw new KeyNotFoundException("Team not found");
@@ -30,7 +30,6 @@ public class MatchService(ITeamRepository teamRepository, IOptions<SimulatorOpti
         var totalPower = homePower + awayPower;
         var homeLambda = options.Value.AverageScorePerMatch * (homePower / totalPower);
         var awayLambda = options.Value.AverageScorePerMatch * (awayPower / totalPower);
-
 
         var result = new MatchResult()
         {

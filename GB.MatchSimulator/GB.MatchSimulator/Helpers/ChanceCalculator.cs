@@ -2,10 +2,10 @@
 
 public static class ChanceCalculator
 {
-    private static readonly Random _rnd = new();
-
     public static int PoissonScore(double lambda)
     {
+        var random = Random.Shared;
+
         if (lambda <= 0) return 0;
 
         double L = Math.Exp(-lambda);
@@ -15,7 +15,7 @@ public static class ChanceCalculator
         do
         {
             k++;
-            p *= _rnd.NextDouble();
+            p *= random.NextDouble();
         } while (p > L);
 
         return k - 1;

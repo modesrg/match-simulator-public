@@ -10,12 +10,12 @@ public class RoundService(IMatchService matchService, IOptions<SimulatorOptions>
     , ILogger<RoundService> logger) : IRoundService
 {
 
-    public RoundResult SimulateRound(Round round)
+    public async Task<RoundResult> SimulateRound(Round round)
     {
         logger.LogInformation($"Simulating round: {round.Name}");
 
         var matchResults = new List<MatchResult>();
-        round.Matches.ForEach(m => matchResults.Add(matchService.SimulateMatch(m)));
+        round.Matches.ForEach(async m => matchResults.Add(await matchService.SimulateMatch(m)));
         return new RoundResult() { Name = round.Name, Results = matchResults };
     }
 

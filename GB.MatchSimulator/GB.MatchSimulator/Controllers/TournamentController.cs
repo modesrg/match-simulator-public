@@ -1,7 +1,6 @@
 using GB.MatchSimulator.Models;
 using GB.MatchSimulator.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
-using System.Net;
 
 namespace GB.MatchSimulator.Controllers;
 
@@ -18,25 +17,16 @@ public class TournamentController(ITournamentService tournamentService) : Contro
             var result = await tournamentService.SimulateTournament();
             return Ok(result);
         }
-        catch (Exception ex)
+        catch (KeyNotFoundException ex)
         {
-            return ex is KeyNotFoundException
-                ? NotFound()
-                : StatusCode((int)HttpStatusCode.InternalServerError);
+            return NotFound();
         }
     }
 
     [HttpGet("history")]
     public async Task<ActionResult<IEnumerable<TournamentResult>>> GetTournaments()
     {
-        try
-        {
-            var result = await tournamentService.GetAllTournaments();
-            return Ok(result);
-        }
-        catch (Exception ex)
-        {
-            return StatusCode((int)HttpStatusCode.InternalServerError);
-        }
+        var result = await tournamentService.GetAllTournaments();
+        return Ok(result);
     }
 }

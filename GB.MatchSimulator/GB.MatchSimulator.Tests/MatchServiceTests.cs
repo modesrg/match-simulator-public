@@ -4,8 +4,10 @@ using GB.MatchSimulator.Data;
 using GB.MatchSimulator.Models;
 using GB.MatchSimulator.Options;
 using GB.MatchSimulator.Services;
+using GB.MatchSimulator.Services.Interfaces;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Microsoft.OpenApi.Any;
 using Moq;
 
 namespace GB.MatchSimulator.Tests;
@@ -28,23 +30,24 @@ public class MatchServiceTests
     }
 
     [Fact]
-    public void Success_Strongest_Wins()
+    public async Task Success_Strongest_Wins()
     {
-        mockTeamRepo.Setup(s => s.GetTeamByName(TestData.TeamA)).Returns(TestData.GetTestTeams()[0]);
-        mockTeamRepo.Setup(s => s.GetTeamByName(TestData.TeamD)).Returns(TestData.GetTestTeams()[3]);
+        mockTeamRepo.Setup(s => s.GetTeamByName(TestData.TeamA)).ReturnsAsync(TestData.GetTestTeams()[0]);
+        mockTeamRepo.Setup(s => s.GetTeamByName(TestData.TeamD)).ReturnsAsync(TestData.GetTestTeams()[3]);
+
         var testFixture = new Fixture() { Home = TestData.TeamA, Away = TestData.TeamD };
 
-        var result = _service.SimulateMatch(testFixture);
+        var result = await _service.SimulateMatch(testFixture);
 
         Assert.True(result.Home.Score > result.Away.Score);
     }
 
     [Fact]
-    public void Fail_Team_Not_Found()
+    public async Task Fail_Team_Not_Found()
     {
-        mockTeamRepo.Setup(s => s.GetTeamByName(It.IsAny<string>())).Returns<TeamEntity>(null);
+        mockTeamRepo.Setup(s => s.GetTeamByName(It.IsAny<string>())).ReturnsAsync((TeamEntity)null);
         var testFixture = new Fixture() { Home = "Team_404_1", Away = "Team_404_2" };
 
-        Assert.Throws<KeyNotFoundException>(() => _service.SimulateMatch(testFixture));
+        await Assert.ThrowsAnyAsync<KeyNotFoundException>(async () => await _service.SimulateMatch(testFixture));
     }
 }

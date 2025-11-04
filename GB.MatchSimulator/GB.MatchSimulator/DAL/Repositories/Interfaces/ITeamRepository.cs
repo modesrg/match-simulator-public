@@ -4,6 +4,6 @@ namespace GB.MatchSimulator.DAL.Repositories.Interfaces;
 
 public interface ITeamRepository
 {
-    List<TeamEntity> GetAllTeams();
-    TeamEntity? GetTeamByName(string teamName);
+    Task<List<TeamEntity>> GetAllTeams();
+    Task<TeamEntity?> GetTeamByName(string teamName);
 }

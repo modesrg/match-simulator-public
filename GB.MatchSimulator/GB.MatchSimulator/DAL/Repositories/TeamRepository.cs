@@ -1,19 +1,20 @@
 ﻿using GB.MatchSimulator.DAL.Entities;
 using GB.MatchSimulator.DAL.Local;
 using GB.MatchSimulator.DAL.Repositories.Interfaces;
+using Microsoft.EntityFrameworkCore;
 
 namespace GB.MatchSimulator.DAL.Repositories;
 
 public class TeamRepository(SimulatorDbContext dbContext) : ITeamRepository
 {
-    public List<TeamEntity> GetAllTeams()
+    public async Task<List<TeamEntity>> GetAllTeams()
     {
-        return dbContext.Teams.ToList() ?? DummyTeams.GetDummyTeams();
+        return await dbContext.Teams.ToListAsync() ?? DummyTeams.GetDummyTeams();
     }
 
-    public TeamEntity? GetTeamByName(string teamName)
+    public async Task<TeamEntity?> GetTeamByName(string teamName)
     {
-        var team = dbContext.Teams.FirstOrDefault(t => t.Name.Equals(teamName))
+        var team = await dbContext.Teams.FirstOrDefaultAsync(t => t.Name.Equals(teamName))
             ?? DummyTeams.GetDummyTeams().FirstOrDefault(t => t.Name.Equals(teamName, StringComparison.OrdinalIgnoreCase));
 
         return team ?? null;

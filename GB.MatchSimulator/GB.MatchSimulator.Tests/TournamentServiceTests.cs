@@ -100,16 +100,16 @@ public class TournamentServiceTests
         var testRoundResult2 = testRoundResults[1];
         var testRoundResult3 = testRoundResults[2];
 
-        mockTeamRepo.Setup(s => s.GetAllTeams()).Returns(TestData.GetTestTeams());
+        mockTeamRepo.Setup(s => s.GetAllTeams()).ReturnsAsync(TestData.GetTestTeams());
         mockRoundService.Setup(s => s.GenerateRoundRobin(It.IsAny<List<string>>()))
             .Returns(testRounds);
 
         mockRoundService.Setup(s => s.SimulateRound(testRound1))
-           .Returns(testRoundResult1);
+           .ReturnsAsync(testRoundResult1);
         mockRoundService.Setup(s => s.SimulateRound(testRound2))
-              .Returns(testRoundResult2);
+              .ReturnsAsync(testRoundResult2);
         mockRoundService.Setup(s => s.SimulateRound(testRound3))
-              .Returns(testRoundResult2);
+              .ReturnsAsync(testRoundResult2);
     }
 
 }

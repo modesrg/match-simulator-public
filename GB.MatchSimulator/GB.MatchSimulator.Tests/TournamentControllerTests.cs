@@ -45,9 +45,6 @@ public class TournamentControllerTests
         mockTournamentService.Setup(s => s.SimulateTournament())
             .Throws(new Exception());
 
-        var result = await _controller.SimulateTournament();
-        var codeResult = Assert.IsType<StatusCodeResult>(result.Result);
-
-        Assert.Equal(500, codeResult.StatusCode);
+        await Assert.ThrowsAnyAsync<Exception>(async () => await _controller.SimulateTournament());
     }
 }
