@@ -6,8 +6,6 @@ public class ChanceService : IChanceService
 {
     public int PoissonScore(double lambda)
     {
-        var random = Random.Shared;
-
         if (lambda <= 0) return 0;
 
         double L = Math.Exp(-lambda);
@@ -17,10 +15,9 @@ public class ChanceService : IChanceService
         do
         {
             k++;
-            p *= random.NextDouble();
+            p *= Random.Shared.NextDouble();
         } while (p > L);
 
         return k - 1;
     }
-
 }
