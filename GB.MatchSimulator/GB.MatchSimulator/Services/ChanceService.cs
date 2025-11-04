@@ -1,8 +1,10 @@
-﻿namespace GB.MatchSimulator.Helpers;
+﻿using GB.MatchSimulator.Services.Interfaces;
 
-public static class ChanceCalculator
+namespace GB.MatchSimulator.Services;
+
+public class ChanceService : IChanceService
 {
-    public static int PoissonScore(double lambda)
+    public int PoissonScore(double lambda)
     {
         var random = Random.Shared;
 

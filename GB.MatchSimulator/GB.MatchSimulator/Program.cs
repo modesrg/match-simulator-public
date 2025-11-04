@@ -24,6 +24,7 @@ builder.Services.AddScoped<ITournamentRepository, TournamentRepository>();
 builder.Services.AddScoped<ITournamentService, TournamentService>();
 builder.Services.AddScoped<IRoundService, RoundService>();
 builder.Services.AddScoped<IMatchService, MatchService>();
+builder.Services.AddScoped<IChanceService, ChanceService>();
 builder.Services.Configure<SimulatorOptions>(builder.Configuration.GetSection(SimulatorOptions.Simulator));
 
 // Using InMemory as a placeholder for the final Database

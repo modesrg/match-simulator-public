@@ -1,5 +1,4 @@
 ﻿using GB.MatchSimulator.DAL.Repositories.Interfaces;
-using GB.MatchSimulator.Helpers;
 using GB.MatchSimulator.Mapping;
 using GB.MatchSimulator.Models;
 using GB.MatchSimulator.Options;
@@ -8,7 +7,7 @@ using Microsoft.Extensions.Options;
 
 namespace GB.MatchSimulator.Services;
 
-public class MatchService(ITeamRepository teamRepository, IOptions<SimulatorOptions> options,
+public class MatchService(IChanceService chanceService, ITeamRepository teamRepository, IOptions<SimulatorOptions> options,
     ILogger<MatchService> logger) : IMatchService
 {
     public async Task<MatchResult> SimulateMatch(Fixture match)
@@ -33,8 +32,8 @@ public class MatchService(ITeamRepository teamRepository, IOptions<SimulatorOpti
 
         var result = new MatchResult()
         {
-            Home = new TeamResult() { Name = homeInfo.Name, Score = ChanceCalculator.PoissonScore(homeLambda) },
-            Away = new TeamResult() { Name = awayInfo.Name, Score = ChanceCalculator.PoissonScore(awayLambda) }
+            Home = new TeamResult() { Name = homeInfo.Name, Score = chanceService.PoissonScore(homeLambda) },
+            Away = new TeamResult() { Name = awayInfo.Name, Score = chanceService.PoissonScore(awayLambda) }
         };
 
         logger.LogInformation($"Match result: {result.Home.Name} {result.Home.Score} - {result.Away.Score} {result.Away.Name}");

@@ -15,6 +15,7 @@ namespace GB.MatchSimulator.Tests;
 public class MatchServiceTests
 {
     private Mock<ITeamRepository> mockTeamRepo = new();
+    private Mock<IChanceService> mockchanceService = new();
     private MatchService _service;
     private Mock<IOptions<SimulatorOptions>> mockOptions = new();
     private Mock<ILogger<MatchService>> logger = new();
@@ -26,7 +27,7 @@ public class MatchServiceTests
             SecondStage = false,
             RandomFixtures = false
         });
-        _service = new MatchService(mockTeamRepo.Object, mockOptions.Object, logger.Object);
+        _service = new MatchService(mockchanceService.Object, mockTeamRepo.Object, mockOptions.Object, logger.Object);
     }
 
     [Fact]
@@ -36,6 +37,9 @@ public class MatchServiceTests
         mockTeamRepo.Setup(s => s.GetTeamByName(TestData.TeamD)).ReturnsAsync(TestData.GetTestTeams()[3]);
 
         var testFixture = new Fixture() { Home = TestData.TeamA, Away = TestData.TeamD };
+
+        mockchanceService.Setup(s => s.PoissonScore(It.Is<double>(v => v < 1))).Returns(0);
+        mockchanceService.Setup(s => s.PoissonScore(It.Is<double>(v => v > 1))).Returns(3);
 
         var result = await _service.SimulateMatch(testFixture);
 
